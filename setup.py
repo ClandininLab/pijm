@@ -9,7 +9,5 @@ setup(
     url="https://github.com/ClandininLab/pijm",
     packages=["pijm"],
     python_requires=">=3.6",
-    install_requires=[
-        "matplotlib",
-    ],
+    install_requires=["matplotlib", "numpy"],
 )
