@@ -1,2 +1,3 @@
 # pijm
-PIJM is just matplotlib
+
+Tools for visualization of dense 3D imagery
