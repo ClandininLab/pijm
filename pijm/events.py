@@ -23,7 +23,7 @@ class ScrollHandler(ABC):
 class StackScroller(ScrollHandler):
     def __init__(self, image_array: np.ndarray, axes_image: AxesImage) -> None:
         assert image_array.ndim == 3
-        assert axes_image.get_array().shape == image_array.shape[:1]
+        assert axes_image.get_array().shape == image_array.shape[:2]
 
         self.__image_array = image_array
         self.__axes_image = axes_image
@@ -35,7 +35,9 @@ class StackScroller(ScrollHandler):
 
     def on_scroll(self, event: MouseEvent) -> None:
         if event.button == "up":
-            self.__slice_idx = min(self.__slice_idx + 1, self.__image_array.shape[2])
+            self.__slice_idx = min(
+                self.__slice_idx + 1, self.__image_array.shape[2] - 1
+            )
         else:
             self.__slice_idx = max(self.__slice_idx - 1, 0)
 
@@ -44,6 +46,6 @@ class StackScroller(ScrollHandler):
     def update(self):
         self.__axes_image.set_data(self.__image_array[:, :, self.__slice_idx])
         self.__axes_image.axes.set_title(
-            f"z:{self.__slice_idx}/{self.__image_array.shape[2]}, {self.__title}"
+            f"z:{self.__slice_idx + 1}/{self.__image_array.shape[2]}, {self.__title}"
         )
-        self.__axes_image.figure.canvas.draw()
+        self.__axes_image.figure.canvas.draw_idle()
